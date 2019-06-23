@@ -1,0 +1,37 @@
+{
+  "name": "gimli.js",
+  "version": "0.0.1",
+  "description": "Gimli is a 384-bit permutation designed to achieve high security with high performance across a broad range of platforms, including 64-bit Intel/AMD server CPUs, 64-bit and 32-bit ARM smartphone CPUs, 32-bit ARM microcontrollers, 8-bit AVR microcontrollers, FPGAs, ASICs without side-channel protection, and ASICs with side-channel protection.",
+  "main": "dist/gimli.js",
+  "directories": {
+    "test": "tests"
+  },
+  "scripts": {
+    "test": "jest"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/drGrove/gimli.js.git"
+  },
+  "keywords": [
+    "gimli",
+    "gimli.js",
+    "crypto"
+  ],
+  "author": "Daniel Grove <danny@drgrovellc.com>",
+  "license": "Apache-2.0",
+  "bugs": {
+    "url": "https://github.com/drGrove/gimli.js/issues"
+  },
+  "homepage": "https://github.com/drGrove/gimli.js#readme",
+  "devDependencies": {
+    "@types/jest": "^24.0.15",
+    "@types/node": "^12.0.10",
+    "jest": "^24.8.0",
+    "ts-jest": "^24.0.2",
+    "typescript": "^3.5.2"
+  },
+  "jest": {
+    "preset": "ts-jest"
+  }
+}

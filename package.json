@@ -32,10 +32,7 @@
     "typescript": "^3.5.2"
   },
   "jest": {
-    "preset": "ts-jest",
-    "reporters": [
-      "jest-tap-reporter"
-    ]
+    "preset": "ts-jest"
   },
   "dependencies": {
     "jest-tap-reporter": "^1.9.0"

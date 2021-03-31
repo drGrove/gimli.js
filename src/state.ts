@@ -8,6 +8,10 @@ export class State extends Uint32Array {
     super(State.BLOCKBYTES/4);
   }
 
+  public toSlice(): Uint8Array {
+    return new Uint8Array(this.buffer);
+  }
+
   public permute() {
     for (let round = 24; round > 0; round--) {
       for(let column = 0; column < 4; column++) {

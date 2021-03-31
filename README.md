@@ -7,10 +7,10 @@ An implementation of [Gimli][gimli] in typescript with compilation to javascript
 
 * Core Permutation
 * Hash
+* Cipher
 
 ## TODO
 
-* Cipher
 * PRNG
 
 Based on the [zig][zig] implementation by [daurnimator][daurnimator].

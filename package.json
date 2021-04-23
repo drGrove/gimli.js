@@ -1,6 +1,6 @@
 {
   "name": "gimli.js",
-  "version": "0.0.1",
+  "version": "0.5.0",
   "description": "Gimli is a 384-bit permutation designed to achieve high security with high performance across a broad range of platforms, including 64-bit Intel/AMD server CPUs, 64-bit and 32-bit ARM smartphone CPUs, 32-bit ARM microcontrollers, 8-bit AVR microcontrollers, FPGAs, ASICs without side-channel protection, and ASICs with side-channel protection.",
   "main": "dist/gimli.js",
   "directories": {
@@ -16,7 +16,11 @@
   "keywords": [
     "gimli",
     "gimli.js",
-    "crypto"
+    "crypto",
+    "gimlijs",
+    "gimli-js",
+    "cryptography",
+    "aead"
   ],
   "author": "Daniel Grove <danny@drgrovellc.com>",
   "license": "Apache-2.0",

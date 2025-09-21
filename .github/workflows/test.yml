@@ -1,0 +1,28 @@
+name: Test
+
+on:
+  push:
+    branches: [ master ]
+  pull_request:
+    branches: [ master ]
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    container:
+      image: drgrove/gimlijs-tools@sha256:e8c519c0f344ea0b0b83fea79e1fc739fcf7322f302d5c359c454ea7e2e4eda9
+
+    steps:
+    - name: Checkout code
+      run: |
+        git config --global --add safe.directory /__w/gimli.js/gimli.js
+        git init
+        git remote add origin https://github.com/${{ github.repository }}
+        git fetch --depth=1 origin ${{ github.event.after }}
+        git checkout FETCH_HEAD
+
+    - name: Install dependencies
+      run: npm ci
+
+    - name: Run tests
+      run: npm test

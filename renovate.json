@@ -1,0 +1,108 @@
+{
+  "$schema": "https://docs.renovatebot.com/renovate-schema.json",
+  "extends": [
+    "config:recommended",
+    "docker:pinDigests",
+    "helpers:pinGitHubActionDigests"
+  ],
+  "enabledManagers": [
+    "dockerfile",
+    "github-actions",
+    "npm"
+  ],
+  "dockerfile": {
+    "fileMatch": ["(^|/)Containerfile$", "(^|/)Dockerfile$"],
+    "pinDigests": true
+  },
+  "github-actions": {
+    "fileMatch": [".github/workflows/*.yml", ".github/workflows/*.yaml"]
+  },
+  "timezone": "UTC",
+  "schedule": ["before 6am on monday"],
+  "prConcurrentLimit": 3,
+  "prHourlyLimit": 1,
+  "packageRules": [
+    {
+      "matchManagers": ["dockerfile"],
+      "matchFileNames": ["Containerfile"],
+      "groupName": "Containerfile dependencies",
+      "commitMessageTopic": "Containerfile deps",
+      "pinDigests": true
+    },
+    {
+      "matchManagers": ["dockerfile"],
+      "pinDigests": true,
+      "versioning": "docker",
+      "followTag": "latest"
+    },
+    {
+      "description": "GitHub Actions",
+      "matchManagers": ["github-actions"],
+      "groupName": "GitHub Actions",
+      "commitMessageTopic": "GitHub Actions",
+      "automerge": false,
+      "schedule": ["before 6am"]
+    },
+    {
+      "description": "TypeScript and related tools",
+      "groupName": "TypeScript",
+      "matchPackageNames": [
+        "typescript",
+        "@types/node"
+      ],
+      "automerge": false,
+      "schedule": ["before 6am on the 15th day of the month"],
+      "minimumReleaseAge": "3 days"
+    },
+    {
+      "description": "Testing framework updates",
+      "groupName": "Testing",
+      "matchPackageNames": [
+        "jest",
+        "@types/jest",
+        "jest-tap-reporter",
+        "ts-jest"
+      ],
+      "automerge": false,
+      "minimumReleaseAge": "3 days"
+    }
+  ],
+  "regexManagers": [
+    {
+      "description": "Update Node.js with digest pinning in Dockerfile",
+      "fileMatch": [".github/Dockerfile.build"],
+      "matchStrings": [
+        "FROM\\s+(?<depName>node):(?<currentValue>[^@\\s]+)@(?<currentDigest>sha256:[a-f0-9]+)",
+        "FROM\\s+(?<depName>node):(?<currentValue>[^@\\s]+)(?:\\s|$)"
+      ],
+      "datasourceTemplate": "docker",
+      "autoReplaceStringTemplate": "FROM {{{depName}}}:{{#if newValue}}{{{newValue}}}{{else}}{{{currentValue}}}{{/if}}{{#if newDigest}}@{{{newDigest}}}{{/if}}"
+    }
+  ],
+  "docker": {
+    "enabled": true,
+    "pinDigests": true
+  },
+  "vulnerabilityAlerts": {
+    "enabled": true,
+    "schedule": ["at any time"],
+    "addLabels": ["security"]
+  },
+  "lockFileMaintenance": {
+    "enabled": true,
+    "schedule": ["before 6am on sunday"],
+    "commitMessageAction": "Update",
+    "commitMessageTopic": "lock file",
+    "automerge": false
+  },
+  "semanticCommits": "disabled",
+  "commitMessageTopic": "{{#if isPinDigest}}pin{{else}}update{{/if}} {{depName}}",
+  "commitMessageExtra": "{{#if isMajor}} (major){{/if}}{{#if isMinor}} (minor){{/if}}{{#if isPatch}} (patch){{/if}}",
+  "prBodyTemplate": "This PR updates {{depName}} from `{{currentVersion}}` to `{{newVersion}}`.\n\n{{#if hasReleaseNotes}}### Release Notes\n{{{releaseNotes}}}{{/if}}\n\n{{#if isSecurityUpdate}}🚨 **Security Update** 🚨{{/if}}\n\n---\n\n- [ ] If you want to rebase/retry this PR, check this box",
+  "labels": ["dependencies"],
+  "assignees": ["drGrove"],
+  "reviewers": ["drGrove"],
+  "dependencyDashboard": true,
+  "dependencyDashboardTitle": "Dependency Dashboard - gimli.js",
+  "dependencyDashboardHeader": "This issue lists Renovate updates and detected dependencies for the gimli.js cryptographic library. Read the [Dependency Dashboard](https://docs.renovatebot.com/key-concepts/dashboard/) docs to learn more.\n\n## 📦 Current Dependencies\n- **Production dependencies**: 0 (gimli.js is dependency-free!)\n- **Development dependencies**: TypeScript, Jest, and type definitions"
+}

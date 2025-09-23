@@ -1,6 +1,5 @@
 # syntax=docker/dockerfile@sha256:dabfc0969b935b2080555ace70ee69a5261af8a8f1b4df97b9e7fbcf6722eddf
-FROM stagex/pallet-nodejs AS pallet-nodejs
-FROM stagex/core-npm AS npm
+FROM drgrove/stagex-pallet-nodejs AS pallet-nodejs
 FROM stagex/core-git AS git
 FROM stagex/user-jq AS jq
 FROM stagex/user-openssh AS openssh
@@ -9,6 +8,5 @@ FROM stagex/core-curl AS curl
 FROM pallet-nodejs
 COPY --from=git . /
 COPY --from=jq . /
-COPY --from=npm . /
 COPY --from=openssh . /
 COPY --from=curl . /

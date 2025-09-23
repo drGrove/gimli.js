@@ -17,7 +17,7 @@ export class AEAD {
     const buf = state.toSlice();
     // Gimli-Cipher initializes a 48-byte Gimli state to a 16-byte nonce
     // followed by a 32-byte key
-    assert(npub.length + k.length == State.BLOCKBYTES);
+    assert.deepStrictEqual(npub.length + k.length, State.BLOCKBYTES);
     buf.set(npub, 0);
     buf.set(k, npub.length);
 
@@ -62,7 +62,7 @@ export class AEAD {
    * @param k private key
    */
   public static encrypt(c: Uint8Array, tag: Uint8Array, m: Uint8Array, ad: Uint8Array, npub: Uint8Array, k: Uint8Array): void {
-    console.assert(c.length == m.length);
+    assert.equal(c.length, m.length);
 
     var state = AEAD.init(ad, npub, k);
     const buf = state.toSlice();
@@ -107,7 +107,7 @@ export class AEAD {
    * @param k private key
    */
   public static decrypt(m: Uint8Array, c: Uint8Array, tag: Uint8Array, ad: Uint8Array, npub: Uint8Array, k: Uint8Array) {
-    console.assert(c.length == m.length);
+    assert.equal(c.length, m.length);
 
     let state = AEAD.init(ad, npub, k);
     const buf = state.toSlice();

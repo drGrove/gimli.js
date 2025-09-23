@@ -1,0 +1,48 @@
+name: Publish to NPM
+
+on:
+  push:
+    tags: [ 'v*' ]
+  workflow_dispatch:
+    inputs:
+      dry_run:
+        description: 'Run npm publish with --dry-run'
+        required: false
+        default: false
+        type: boolean
+
+jobs:
+  publish:
+    runs-on: ubuntu-latest
+    container:
+      image: drgrove/gimlijs-tools@sha256:e8c519c0f344ea0b0b83fea79e1fc739fcf7322f302d5c359c454ea7e2e4eda9
+
+    permissions:
+      contents: read
+      id-token: write
+
+    steps:
+    - name: Checkout code
+      run: |
+        git config --global --add safe.directory $PWD
+        git init
+        git remote add origin https://github.com/${{ github.repository }}
+        git fetch --depth=1 origin ${{ github.event.after }}
+        git checkout FETCH_HEAD
+
+    - name: Install dependencies
+      run: npm ci
+
+    - name: Build
+      run: npm run build
+
+    - name: Run tests
+      run: npm test
+
+    - name: Dry run publish
+      if: ${{ github.event.inputs.dry_run == 'true' }}
+      run: npm publish --ignore-scripts --dry-run --provenance --access public
+
+    - name: Publish to NPM
+      if: ${{ github.event.inputs.dry_run != 'true' }}
+      run: npm publish --provenance --access public

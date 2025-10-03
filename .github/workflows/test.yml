@@ -10,7 +10,7 @@ jobs:
   test:
     runs-on: ubuntu-latest
     container:
-      image: drgrove/gimlijs-tools@sha256:e8c519c0f344ea0b0b83fea79e1fc739fcf7322f302d5c359c454ea7e2e4eda9
+      image: drgrove/gimlijs-tools@sha256:44c8dabd2a14f259f935113ab84a0bf86c02a986092e3120fcf16d14f97dda15
 
     steps:
     - name: Checkout code

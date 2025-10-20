@@ -1,7 +1,5 @@
 TOOLS_CONTAINER_NAME ?= gimlijs-tools
 TOOLS_CONTAINER_REGISTRY ?= drgrove
-SOURCE_DATE_EPOCH := $(shell git log -1 --format=%ct)
-COMMIT_ISO := $(shell git log -1 --format=%cI)
 TOOLS_CONTAINER_VERSION := latest
 OUT_DIR ?= out
 TOOLS_IMAGE_DIR ?= $(OUT_DIR)/tools
@@ -9,6 +7,14 @@ SRCS=$(shell find . -type f -name "*.ts" -not -path "*/\.*")
 SOURCE_URL=https://github.com/drGrove/gimli.js
 TOOLS_DESCRIPTION='Tools for developing and building gimli.js'
 PLATFORM=linux/amd64
+
+SOURCE_DATE_EPOCH := $(shell git log -1 --format=%ct)
+COMMIT_ISO := $(shell git log -1 --format=%cI)
+
+TOOLS_CONTAINERFILE = Containerfile.tools
+TOOLS_SOURCE_DATE_EPOCH := $(shell git log -1 --format=%ct -- $(TOOLS_CONTAINERFILE))
+TOOLS_COMMIT_ISO := $(shell git log -1 --format=%cI -- $(TOOLS_CONTAINERFILE))
+TOOLS_REVISION := $(shell git rev-list HEAD -1 -- $(TOOLS_CONTAINERFILE))
 
 export SOURCE_DATE_EPOCH
 export TZ=UTC
@@ -33,14 +39,15 @@ export NOCACHE_FLAG
 
 .PHONY: tools
 tools: $(TOOLS_IMAGE_DIR)/index.json
-$(TOOLS_IMAGE_DIR)/index.json: Containerfile.tools $(TOOLS_IMAGE_DIR) $(SRCS)
+$(TOOLS_IMAGE_DIR)/index.json: $(TOOLS_CONTAINERFILE) $(TOOLS_IMAGE_DIR) $(SRCS)
+	SOURCE_DATE_EPOCH=$(TOOLS_SOURCE_DATE_EPOCH) \
 	docker \
 		buildx \
 		build \
 		--ulimit nofile=2048:16384 \
 		--tag $(TOOLS_CONTAINER_REGISTRY)/$(TOOLS_CONTAINER_NAME):$(TOOLS_CONTAINER_VERSION) \
 		--output \
-			name=$(TOOLS_CONTAINER_REGISTRY)/$(TOOLS_CONTAINER_NAME),type=oci,rewrite-timestamp=true,force-compression=true,annotation.org.opencontainers.image.revision=$(shell git rev-list HEAD -1 .),annotation.org.opencontainers.source=$(SOURCE_URL),annotation.org.opencontainers.image.created=$(COMMIT_ISO),annotation.org.opencontainers.description=$(TOOLS_DESCRIPTION),tar=true,dest=- \
+			name=$(TOOLS_CONTAINER_REGISTRY)/$(TOOLS_CONTAINER_NAME),type=oci,rewrite-timestamp=true,force-compression=true,annotation.org.opencontainers.image.revision=$(TOOLS_REVISION),annotation.org.opencontainers.source=$(SOURCE_URL),annotation.org.opencontainers.image.created=$(TOOLS_COMMIT_ISO),annotation.org.opencontainers.description=$(TOOLS_DESCRIPTION),tar=true,dest=- \
 		$(EXTRA_ARGS) \
 		$(NOCACHE_FLAG) \
 		$(CHECK_FLAG) \

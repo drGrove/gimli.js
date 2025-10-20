@@ -18,7 +18,7 @@ jobs:
   publish:
     runs-on: ubuntu-latest
     container:
-      image: drgrove/gimlijs-tools@sha256:44c8dabd2a14f259f935113ab84a0bf86c02a986092e3120fcf16d14f97dda15
+      image: drgrove/gimlijs-tools@sha256:2008d786b0ce031301d1b2ded77d71649a5b488492e789485a6fd467ba4a37df
 
     permissions:
       contents: read

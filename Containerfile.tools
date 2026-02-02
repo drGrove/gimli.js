@@ -3,7 +3,7 @@ FROM stagex/pallet-nodejs@sha256:7a58b0bf73fde9a701c3e4d1f87abf2eaf3076291ac0a13
 FROM stagex/core-git@sha256:a97375da6ca61bf2c211b4e5a8035dbb7bc7fd225b60b2247d3241b3f84793b0 AS git
 FROM stagex/user-jq@sha256:63882bc719e24d467e8c1603e3848f9c00bda753ab258abbd402a1f2b1ac3604 AS jq
 FROM stagex/user-openssh@sha256:551664d94154bd57bf4eaa0a3e49b2d8c5e782f9334bcb91962fe5fc5b1d5ffa AS openssh
-FROM stagex/core-curl@sha256:a4a9f7159e05508c62e22fd566e9be440b3dd5817c2a97c250e727aa787325aa AS curl
+FROM stagex/core-curl@sha256:80e49b640c19b620926e754f80911de3aa31f6e8b765e5c30aaa31ee3332ae6f AS curl
 
 FROM pallet-nodejs
 COPY --from=git . /

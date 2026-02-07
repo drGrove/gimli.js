@@ -11,7 +11,7 @@
     "npm"
   ],
   "dockerfile": {
-    "fileMatch": ["(^|/)Containerfile$", "(^|/)Dockerfile$"],
+    "fileMatch": ["(^|/)Containerfile.*", "(^|/)Dockerfile.*"],
     "pinDigests": true
   },
   "github-actions": {
@@ -70,13 +70,14 @@
   "regexManagers": [
     {
       "description": "Update Node.js with digest pinning in Dockerfile",
-      "fileMatch": [".github/Dockerfile.build"],
+      "fileMatch": ["(^|/)Containerfile.*", "(^|/)Dockerfile.*"],
       "matchStrings": [
-        "FROM\\s+(?<depName>node):(?<currentValue>[^@\\s]+)@(?<currentDigest>sha256:[a-f0-9]+)",
-        "FROM\\s+(?<depName>node):(?<currentValue>[^@\\s]+)(?:\\s|$)"
+        "FROM\\s+(?<depName>[^\\s@]+)@(?<currentDigest>sha256:[a-f0-9]+)\\s+AS\\s+(?<stage>\\w+)",
+        "FROM\\s+(?<depName>[^\\s@]+)@(?<currentDigest>sha256:[a-f0-9]+)(?:\\s|$)"
       ],
       "datasourceTemplate": "docker",
-      "autoReplaceStringTemplate": "FROM {{{depName}}}:{{#if newValue}}{{{newValue}}}{{else}}{{{currentValue}}}{{/if}}{{#if newDigest}}@{{{newDigest}}}{{/if}}"
+      "currentValueTemplate": "latest",
+      "autoReplaceStringTemplate": "FROM {{{depName}}}:{{#if newValue}}{{{newValue}}}{{else}}latest{{/if}}@{{{newDigest}}}{{#if stage}} AS {{{stage}}}{{/if}}"
     }
   ],
   "docker": {

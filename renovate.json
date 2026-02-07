@@ -18,7 +18,8 @@
     "fileMatch": [".github/workflows/*.yml", ".github/workflows/*.yaml"]
   },
   "timezone": "UTC",
-  "schedule": ["before 6am on monday"],
+  "description": "Schedule during typical non-office hours on weekdays (i.e., 8 PM - 5 AM) and anytime on weekends",
+  "schedule": ["* 0-4,20-23 * * 1-5", "* * * * 0,6"],
   "prConcurrentLimit": 3,
   "prHourlyLimit": 1,
   "packageRules": [

@@ -24,7 +24,7 @@
   "packageRules": [
     {
       "matchManagers": ["dockerfile"],
-      "matchFileNames": ["Containerfile"],
+      "matchFileNames": ["Containerfile.*"],
       "groupName": "Containerfile dependencies",
       "commitMessageTopic": "Containerfile deps",
       "pinDigests": true

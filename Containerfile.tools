@@ -1,9 +1,9 @@
-# syntax=docker/dockerfile@sha256:b6afd42430b15f2d2a4c5a02b919e98a525b785b1aaff16747d2f623364e39b6
-FROM stagex/pallet-nodejs@sha256:e6707e45e546648f63d18bcc8a3a1f97ecf646f9437b4ee59e215214955e0cd1 AS pallet-nodejs
-FROM stagex/core-git@sha256:5f3a01de8477643894420d1f977cefe24ad6acecbdd54862eb9104ae65a20168 AS git
-FROM stagex/user-jq@sha256:7438d99ff51da8407bf702d0207d8528394bdb3a8e92c1b5cea485e143b69fcc AS jq
-FROM stagex/user-openssh@sha256:eb2260b0628c2c911af27068cfea060a75e37cce27b7e3032befeeb0e61a57e4 AS openssh
-FROM stagex/core-curl@sha256:80e49b640c19b620926e754f80911de3aa31f6e8b765e5c30aaa31ee3332ae6f AS curl
+# syntax=docker/dockerfile@sha256:ecfaec9ed6d810b56388c508f4121597bfbba70d41a6dfeee4d8cad5f295fc32
+FROM stagex/pallet-nodejs@sha256:5c96b25c18713976497a21c770057f2179c5014c5a025a02d2df9041d8f861f6 AS pallet-nodejs
+FROM stagex/core-git@sha256:ecd1de421f467072a76de5a38fce61dd0afb2ddd2c48d73c21effb5ad76342fb AS git
+FROM stagex/user-jq@sha256:1b2dddde7a2a35395430ebd99e07117bbc48fa29a0dba8a6b18d6d74bf762368 AS jq
+FROM stagex/user-openssh@sha256:994cadc77876c79ab429598a545d9518c18bd44cf0d1b0e3816853383c1f8118 AS openssh
+FROM stagex/core-curl@sha256:fa58ff1a1c32677ce3034e69a2ee40081c799d6df68a7b1d5d480501de779030 AS curl
 
 FROM pallet-nodejs
 COPY --from=git . /
